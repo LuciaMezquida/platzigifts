@@ -5,7 +5,7 @@
   <?php if(have_posts()){
             while(have_posts()){ the_post();
     ?>
-
+  <?php $taxonomy = get_the_terms(get_the_ID(), 'categoria-productos'); //esta función nos trae todos los términos en que está inscrito este producto. Dos parámetros: el id y la categoría. Nos devuelve un array?>
   <div class="row my-5">
     <div class="col-md-6 col-12">
       <?php the_post_thumbnail('large')?>
@@ -22,8 +22,14 @@
     'post_type' => 'producto',
     'posts_per_page' => 6,
     'order' => 'ASC',
-    'orderby' => 'title'
-  
+    'orderby' => 'title',
+    'tax_query' => array(
+      array(
+        'taxonomy' => 'categoria-productos',
+        'field' => 'slug',
+        'terms' => $taxonomy[0] -> slug //usamos sólo el primer elemento en este cao, porque sabemos que sólo hay uno. Normalmente habría que hacer un forEach.
+      )
+    )
   );
   $productos = new WP_Query($args); //instancia?>
   <?php if($productos->have_posts()) { ?>
