@@ -42,6 +42,8 @@ function sidebar(){
 
 add_action('widgets_init', 'sidebar');
 
+// Registrar un Post Type
+
 function productos_type(){
   $labels = array(
       'name' => 'Productos',
@@ -68,3 +70,20 @@ function productos_type(){
 }
 
 add_action('init', 'productos_type');
+
+//Registrar una taxonomía personalizada
+
+function pgRegisterTax() {
+  $args = array(
+    'hierarchical' => true,
+    'labels' => array(
+      'name' => 'Categorías de Productos', //en plural
+      'singular_name' => 'Categoría de Productos'
+    ),
+    'show_in_nav_menu' => true,
+    'show_admin_column' => true,
+    'rewrite' => array('slug' =>'categoria-productos')
+  );
+  register_taxonomy('categoria-productos', array('producto'), $args);
+}
+add_action('init', 'pgRegisterTax');
