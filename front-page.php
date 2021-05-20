@@ -25,7 +25,7 @@
         </select>
       </div>
     </div>
-    <div class="row">
+    <div id='resultado-productos' class="row">
       <?php
         $args = array(
             'post_type' => 'producto', //tipo de contenido que va a traer, debe ser el mismo que pusimos al regisrarlo

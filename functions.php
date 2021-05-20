@@ -21,6 +21,9 @@ function assets(){
   wp_register_script('popper','https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js','','1.16.0', true);
   wp_enqueue_script('boostraps', 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js', array('jquery','popper'),'4.4.1', true);
   wp_enqueue_script('custom', get_template_directory_uri().'/assets/js/custom.js', '', '1.0', true);
+  wp_localize_script('custom', 'pg', array(
+    'ajaxurl' => admin_url('admin-ajax.php')
+  ) ); //nos permite enviar info desde php en un objeto a un archivo JS determinado
 }
 
 add_action('wp_enqueue_scripts','assets');
@@ -87,3 +90,39 @@ function pgRegisterTax() {
   register_taxonomy('categoria-productos', array('producto'), $args);
 }
 add_action('init', 'pgRegisterTax');
+
+function pgFiltroProductos() {
+  $args = array(
+    'post_type' => 'producto',
+    'posts_per_page' => -1,
+    'order' => 'ASC',
+    'orderby' => 'title',
+  );
+  
+  if($_POST['categoria']) {
+    $args['tax_query'] = array(
+      array(
+        'taxonomy' => 'categoria-productos',
+        'field' => 'slug',
+        'terms' => $_POST['categoria'] 
+      )
+    );
+  }
+  $productos = new WP_Query($args);
+
+  if($productos->have_posts()){
+    $return = array();
+    while($productos->have_posts()) {
+      $productos->the_post();
+      $return[] = array(
+        'imagen' => get_the_post_thumbnail(get_the_id(), 'large'),
+        'link' => get_the_permalink(),
+        'titulo' => get_the_title()
+      );
+    }
+    wp_send_json($return);
+  }
+}
+
+add_action('wp_ajax_pgFiltroProductos', 'pgFiltroProductos');
+add_action('wp_ajax_nopriv_pgFiltroProductos', 'pgFiltroProductos');
