@@ -11,6 +11,9 @@
       <?php the_post_thumbnail('large')?>
     </div>
     <div class="col-md-6 col-12">
+      <?php echo do_shortcode('[contact-form-7 id="111" title="Formulario de contacto 1"]');//añadimos el shortcode que hemos generado para crear un formulario con el plugin 'contact form 7'?>
+    </div>
+    <div class=" col-12">
       <?php the_content();?>
     </div>
   </div>
