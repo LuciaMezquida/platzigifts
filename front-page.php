@@ -28,7 +28,7 @@
     <div id='resultado-productos' class="row">
       <?php
         $args = array(
-            'post_type' => 'producto', //tipo de contenido que va a traer, debe ser el mismo que pusimos al regisrarlo
+            'post_type' => 'producto', //tipo de contenido que va a traer, debe ser el mismo que pusimos al registrarlo
             'post_per_page' => -1, //define la cantidad de productos que va a traer. Con -1 nos trae todos. Si no ponemos nada, nos traerá los establecido por defecto en WP
             'order'         => 'ASC', //el orden en el que se va a traer nuestro contenido. Por defecto es descendente por fecha de carga -> DESC
             'orderby'       => 'title' //por defecto es date, pero aquí los ordenamos por título
