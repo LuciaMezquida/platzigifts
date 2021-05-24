@@ -99,6 +99,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("pg/basic", {
@@ -108,43 +111,35 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("pg/
   //de la librería dash_icon
   category: "layout",
   // keywords: ["wordpress", "gutenberg", "platzigift"],
-  // attributes: {
-  //   content: {
-  //     type: "string",
-  //     default: "Hello world",
-  //   },
-  // },
-  // edit: (props) => {
-  //   const {
-  //     attributes: { content },
-  //     setAttributes,
-  //     className,
-  //   } = props;
-  //   const handlerOnChangeTextControl = (newContent) => {
-  //     setAttributes({ content: newContent });
-  //   };
-  //   return (
-  //     <>
-  //       <InspectorControls>
-  //         <PanelBody
-  //           title="Modificar texto del Bloque Básico"
-  //           initialOpen={false}
-  //         >
-  //           <PanelRow>
-  //             <TextControl
-  //               label="Complete el campo"
-  //               value={content}
-  //               onChange={handlerOnChangeTextControl}
-  //             />
-  //           </PanelRow>
-  //         </PanelBody>
-  //       </InspectorControls>
-  //       <h2>{content}</h2>
-  //     </>
-  //   );
-  // },
-  edit: () => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, "Hello Muka"),
-  save: () => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, "Hello Muka")
+  attributes: {
+    content: {
+      type: "string",
+      default: "Hello Muka"
+    }
+  },
+  edit: props => {
+    const {
+      attributes: {
+        content
+      },
+      setAttributes,
+      className
+    } = props;
+
+    const handlerOnChangeInput = newContent => {
+      //el componente va a trabajar con el contenido
+      setAttributes({
+        content: newContent
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], {
+      label: "Complete el campo",
+      value: content,
+      onChange: handlerOnChangeInput
+    }));
+  },
+  save: props => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, props.attributes.content)
 });
 
 /***/ }),
@@ -157,6 +152,17 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])("pg/
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["components"]; }());
 
 /***/ }),
 
