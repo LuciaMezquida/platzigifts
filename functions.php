@@ -193,3 +193,20 @@ add_action('init', 'pgRegisterBlock');
 function pgRenderDynamicBlock($attributes, $content){ //$content se usa para bloques que dentro de su contenido tienen otros bloques y no sólo atributos
     return '<h2>'.$attributes['content'].'</h2>';
 }
+
+function acfRegisterBlocks(){
+    if (function_exists('acf_register_block')) {
+        $block = array(
+            'name'            => 'pg-institucional',
+            'title'           => 'Institucional',
+            'description'     => '',
+            'render_template' => get_template_directory().'/template-parts/institucional.php',
+            'category'        => 'layout',
+            'icon'            => 'smiley',
+            'mode'            => 'edit'
+        );
+
+        acf_register_block($block);
+    }
+}
+add_action('acf/init', 'acfRegisterBlocks');
