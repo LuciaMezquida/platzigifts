@@ -164,20 +164,32 @@ function pedidoNovedades($data){
 
 function pgRegisterBlock(){
   // Requiere los parámetros generados automaticamente por WP Scripts
+  // Tomamos el archivo PHP generado en el Build
   $assets = include_once get_template_directory().'/blocks/build/index.asset.php';
-  //Registra el script index.js de la carpeta build
+
   wp_register_script(
-    'pg-block',
-    get_template_directory_uri().'/blocks/build/index.js',
-    $assets['dependencies'],
-    $assets['version']
+      'pg-block', // Handle del Script
+      get_template_directory_uri().'/blocks/build/index.js', // Usamos get_template_directory_uri() para recibir la URL del directorio y no el Path
+      $assets['dependencies'], // Array de dependencias generado en el Build
+      $assets['version'] // Cada Build cambia la versión para no tener conflictos de caché
   );
-  //Registra el bloque
+
   register_block_type(
-    'pg/basic', //el slug de nuestro bloque
-    array(
-      'editor_script' => 'pg-block'
+      'pg/basic', // Nombre del bloque
+      array(
+          'editor_script' => 'pg-block', // Handler del Script que registramos arriba
+          'attributes'      => array( // Repetimos los atributos del bloque, pero cambiamos los objetos por arrays
+              'content' => array(
+                  'type'    => 'string',
+                  'default' => 'Hello world'
+              )
+          ),
+          'render_callback' => 'pgRenderDinamycBlock' // Función de callback para generar el SSR (Server Side Render)
       )
-    );
+  );
 }
 add_action('init', 'pgRegisterBlock');
+
+function pgRenderDynamicBlock($attributes, $content){ //$content se usa para bloques que dentro de su contenido tienen otros bloques y no sólo atributos
+    return '<h2>'.$attributes['content'].'</h2>';
+}
